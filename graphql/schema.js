@@ -1,0 +1,63 @@
+const {buildSchema} = require('graphql');
+
+module.exports = buildSchema(`
+    type Country {
+        id: ID!
+        name: String!
+        description: String!
+        climate: String!
+        continent: String!
+        terrain: String
+        population: Int!
+        code: String!
+        imageUrl: String
+    }
+
+    type User {
+        id: ID!
+        username: String!
+        email: String!
+        password: String
+        dob: String!
+        isAdmin: Boolean
+    }
+
+    type AuthData {
+        token: String!
+        userId: String!
+        username: String!
+    }
+
+    input UserInputData {
+        email: String!
+        name: String!
+        password: String!
+        passwordConfirmation: String
+        dob: String
+    }
+
+    input UpdateUserCountry {
+        userId: Int!
+        CountryId: Int!
+    }
+
+    type CountryData {
+        countries: [Country!]!
+    }
+
+    type RootMutation {
+        createUser(userInput: UserInputData): User!
+        addRemoveUserCountry(userInput: UpdateUserCountry): Boolean!
+    }
+
+    type RootQuery {
+        login(email: String!, password: String!): AuthData!
+        currentUser: User!
+        countries: CountryData!
+        getUserCountries(userId: ID!): CountryData
+    }
+
+    schema {
+        query: RootQuery
+    }
+`)
