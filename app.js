@@ -20,8 +20,6 @@ const cors = require('cors');
 app.use(cors())
 app.use(bodyParser())
 
-// console.log(countries[0])
-
 app.use (
     '/graphql',
     graphqlHTTP({
@@ -45,16 +43,16 @@ app.get('/', (req, res) => {
     return res.send('server up and running')
 })
 
-// app.get('/seed', async (req, res) => {
+app.get('/seed', async (req, res) => {
 
-//     await Country.destroy({ truncate:  'cascade' })
+    await Country.destroy({ truncate:  'cascade' })
     
-//     filteredCountries.forEach(country => {
-//         const {name, description, continent, population, climate, terrain, code} = country
-//         Country.create({name, description, continent, population, climate, terrain, code})
-//     })
-//     res.json({status: 200, message: 'countries added'})
-// })
+    filteredCountries.forEach(country => {
+        const {name, description, continent, population, climate, terrain, code} = country
+        Country.create({name, description, continent, population, climate, terrain, code})
+    })
+    res.json({status: 200, message: 'countries added'})
+})
 
 try {
     sequelize
