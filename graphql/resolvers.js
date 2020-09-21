@@ -41,7 +41,7 @@ module.exports = {
     countries: async ({}, req) => {
         try {
             const countries = await Country.findAll()
-            return { countries, loggedIn: true }
+            return { countries, loggedIn: req.isAuth }
         } catch (err) {
             console.log(err)
         }
