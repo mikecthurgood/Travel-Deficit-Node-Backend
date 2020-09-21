@@ -38,11 +38,6 @@ app.use (
     })
 )
 
-app.get('/', (req, res) => {
-    console.log('running')
-    return res.send('server up and running')
-})
-
 // app.get('/seed', async (req, res) => {
 
 //     await Country.destroy({ truncate:  'cascade' })
