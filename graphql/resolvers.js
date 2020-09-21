@@ -9,13 +9,13 @@ const UserCountry = require('../models/UserCountries')
 
 const key = process.env.TOKENKEY;
 
-const authUser = ({isAuth}) => {
-    if (!isAuth) {
-        const error = new Error('Not authenticated')
-        error.code = 401
-        throw error
-    }
-}
+// const authUser = ({isAuth}) => {
+//     if (!isAuth) {
+//         const error = new Error('Not authenticated')
+//         error.code = 401
+//         throw error
+//     }
+// }
 
 const calculateAge = (date) => {
     const split_dob = date.toString().split("-");
@@ -41,7 +41,7 @@ module.exports = {
     countries: async ({}, req) => {
         try {
             const countries = await Country.findAll()
-            return { countries, loggedIn: req.isAuth }
+            return { countries, loggedIn: true }
         } catch (err) {
             console.log(err)
         }
