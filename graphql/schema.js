@@ -26,11 +26,12 @@ module.exports = buildSchema(`
         token: String!
         userId: String!
         username: String!
+        age: Int
     }
 
     input UserInputData {
-        email: String!
-        name: String!
+        email: String
+        username: String!
         password: String!
         passwordConfirmation: String
         dob: String
@@ -51,7 +52,7 @@ module.exports = buildSchema(`
     }
 
     type RootQuery {
-        login(email: String!, password: String!): AuthData!
+        login(username: String!, password: String!): AuthData!
         currentUser: User!
         countries: CountryData!
         getUserCountries(userId: ID!): CountryData
@@ -59,5 +60,6 @@ module.exports = buildSchema(`
 
     schema {
         query: RootQuery
+        mutation: RootMutation
     }
 `)
