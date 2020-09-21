@@ -9,6 +9,7 @@ const sequelize = require('./db/tdDb')
 const Country = require('./models/Country')
 const graphqlSchema = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolvers');
+const auth = require('./middleware/auth')
 
 const {countries} = require('./country_stats.json')
 const filteredCountries = countries.filter(country => country.code !== null)
@@ -19,6 +20,7 @@ const app = express()
 const cors = require('cors');
 app.use(cors())
 app.use(bodyParser())
+app.use(auth)
 
 app.use (
     '/graphql',

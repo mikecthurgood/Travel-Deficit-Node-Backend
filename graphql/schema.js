@@ -44,6 +44,7 @@ module.exports = buildSchema(`
 
     type CountryData {
         countries: [Country!]!
+        loggedIn: Boolean
     }
 
     type RootMutation {

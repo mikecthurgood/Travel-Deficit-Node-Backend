@@ -30,6 +30,13 @@ const key = process.env.TOKENKEY;
 //         throw error
 //     }
 // }
+const authUser = ({isAuth}) => {
+    if (!isAuth) {
+        const error = new Error('Not authenticated')
+        error.code = 401
+        throw error
+    }
+}
 
 const calculateAge = (date) => {
     const split_dob = date.toString().split("-");
@@ -54,8 +61,13 @@ const calculateAge = (date) => {
 module.exports = {
     countries: async ({}, req) => {
         try {
+            try { 
+                isAuth(req)
+            } catch(err) {
+                console.log(err)
+            }
             const countries = await Country.findAll()
-            return { countries }
+            return { countries, loggedIn: req.isAuth }
         } catch (err) {
             console.log(err)
         }
