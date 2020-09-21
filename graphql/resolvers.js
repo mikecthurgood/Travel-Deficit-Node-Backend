@@ -9,27 +9,6 @@ const UserCountry = require('../models/UserCountries')
 
 const key = process.env.TOKENKEY;
 
-// const findUser = async (req) => {
-//     const user = await User.findByPk(req.userId);
-//     if (!user) {
-//         const error = new Error('Invalid user')
-//         error.data = errors
-//         error.code = 401
-//         throw error
-//     }
-//     if (user.isAdmin) {
-//         req.isAdmin = true
-//     }
-//     return (user)
-// }
-
-// const authUser = ({isAuth}) => {
-//     if (!isAuth) {
-//         const error = new Error('Not authenticated')
-//         error.code = 401
-//         throw error
-//     }
-// }
 const authUser = ({isAuth}) => {
     if (!isAuth) {
         const error = new Error('Not authenticated')
@@ -61,11 +40,6 @@ const calculateAge = (date) => {
 module.exports = {
     countries: async ({}, req) => {
         try {
-            try { 
-                isAuth(req)
-            } catch(err) {
-                console.log(err)
-            }
             const countries = await Country.findAll()
             return { countries, loggedIn: req.isAuth }
         } catch (err) {
