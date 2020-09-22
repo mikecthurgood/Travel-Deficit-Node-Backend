@@ -1,7 +1,7 @@
 require('dotenv').config();
 // const path = require('path');
 const express = require('express');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 // const graphqlHttp = require('express-graphql');
 const {graphqlHTTP} = require('express-graphql');
 
@@ -20,10 +20,10 @@ const app = express()
 const cors = require('cors');
 
 app.use(cors())
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({
-//   extended: true
-// }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(auth)
 
 app.use (
