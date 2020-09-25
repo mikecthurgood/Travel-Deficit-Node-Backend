@@ -28,10 +28,10 @@ const User = sequelize.define('user', {
         type: Sequelize.BOOLEAN,
         allowNull: true
     },
-    // friendrequestid: {
-    //     type: Sequelize.STRING,
-    //     allowNull: true
-    // },
+    friendrequestid: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
 })
 
 module.exports = User

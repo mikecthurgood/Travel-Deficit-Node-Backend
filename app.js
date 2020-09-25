@@ -60,14 +60,17 @@ app.use (
 app.get('/show-users', async (req, res) => {
     const users = await User.findAll()
     const returnedUsers = users.map(user => {
-        return {username: user.username}
+        return {
+            username: user.username,
+            friendId: user.friendrequestid
+        }
     })
-    res.json(users)
+    res.json(returnedUsers)
 })
 
-app.get('/dbmigrate', async (req, res) => {
-    return migration.addFriendRequestId()
-})
+// app.get('/dbmigrate', async (req, res) => {
+//     return migration.addFriendRequestId()
+// })
 
 try {
     sequelize

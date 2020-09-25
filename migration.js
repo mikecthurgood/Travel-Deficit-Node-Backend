@@ -3,8 +3,8 @@ const sequelize = require('./db/tdDb');
 
 const addFriendRequestId = async () => {
 
-    sequelize.query("ALTER TABLE users ADD friendRequestId varchar(255)")
-    return 'column added successfully'
+    // sequelize.query("ALTER TABLE users ADD friendRequestId varchar(255)")
+    // return 'column added successfully'
 
     return 'no data to migrate'
 }
