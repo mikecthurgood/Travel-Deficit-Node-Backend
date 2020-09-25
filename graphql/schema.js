@@ -20,6 +20,7 @@ module.exports = buildSchema(`
         password: String
         dob: String!
         isAdmin: Boolean
+
     }
 
     type AuthData {
@@ -38,18 +39,19 @@ module.exports = buildSchema(`
     }
 
     input UpdateUserCountry {
-        userId: Int!
         CountryId: Int!
     }
 
     type CountryData {
         countries: [Country!]!
         loggedIn: Boolean
+        visitedCountries: [Int]
     }
 
     type RootMutation {
         createUser(userInput: UserInputData): User!
         addRemoveUserCountry(userInput: UpdateUserCountry): Boolean!
+        addRemoveWishlist(userInput: UpdateUserCountry): Boolean!
     }
 
     type RootQuery {

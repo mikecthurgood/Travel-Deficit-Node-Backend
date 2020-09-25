@@ -7,6 +7,7 @@ const {graphqlHTTP} = require('express-graphql');
 
 const sequelize = require('./db/tdDb')
 const Country = require('./models/Country')
+const User = require('./models/User')
 const graphqlSchema = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolvers');
 const auth = require('./middleware/auth')
@@ -54,6 +55,11 @@ app.use (
 //     })
 //     res.json({status: 200, message: 'countries added'})
 // })
+
+app.get('/show-users', async (req, res) => {
+    const users = await User.findAll()
+    res.json(users)
+})
 
 try {
     sequelize

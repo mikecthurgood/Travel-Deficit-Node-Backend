@@ -1,14 +1,14 @@
 const Sequelize = require('sequelize')
 require('dotenv').config()
 
-// module.exports = new Sequelize(process.env.DBNAME, process.env.DBUSERNAME, process.env.DBPASSWORD, {
-//     dialect: "postgres",
-//     host: "localhost",
-//     port: 5432,
-//     storage: "./session.sqlite"
-// })
+const devDb = new Sequelize(process.env.DBNAME, process.env.DBUSERNAME, process.env.DBPASSWORD, {
+    dialect: "postgres",
+    host: "localhost",
+    port: 5432,
+    storage: "./session.sqlite"
+})
 
-module.exports = new Sequelize(process.env.DATABASE_URL, {
+ const prodDb = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
     dialectOptions: {
@@ -20,3 +20,6 @@ module.exports = new Sequelize(process.env.DATABASE_URL, {
     storage: "./session.sqlite"
 })
 
+const db = process.env.NODE_ENV === 'development' ? devDb : prodDb
+
+module.exports = db

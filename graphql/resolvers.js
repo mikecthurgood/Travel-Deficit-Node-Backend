@@ -9,13 +9,13 @@ const UserCountry = require('../models/UserCountries')
 
 const key = process.env.TOKENKEY;
 
-// const authUser = ({isAuth}) => {
-//     if (!isAuth) {
-//         const error = new Error('Not authenticated')
-//         error.code = 401
-//         throw error
-//     }
-// }
+const authUser = ({isAuth}) => {
+    if (!isAuth) {
+        const error = new Error('Not authenticated')
+        error.code = 401
+        throw error
+    }
+}
 
 const calculateAge = (date) => {
     const split_dob = date.toString().split("-");
@@ -39,9 +39,14 @@ const calculateAge = (date) => {
 
 module.exports = {
     countries: async ({}, req) => {
+        let visitedCountries = []
         try {
+            if (req.isAuth) {
+                visitedCountriesData = await UserCountry.findAll({where: { userId: req.userId }})
+                visitedCountries = visitedCountriesData.map(vc => vc.dataValues.countryId)
+            }
             const countries = await Country.findAll()
-            return { countries, loggedIn: req.isAuth }
+            return { countries, loggedIn: req.isAuth, visitedCountries }
         } catch (err) {
             console.log(err)
         }
@@ -107,10 +112,6 @@ module.exports = {
         }
     },
 
-    // getUserCountries: async ({ userId }) => {
-    //     return await UserCountries.findAll({ where: { userId } })
-    // },
-
     login: async ({ username, password }) => {
         const emailLower = username.toLowerCase()
         try {
@@ -148,21 +149,47 @@ module.exports = {
 
     },
 
-    // addRemoveUserCountry: async ({ userId, countryId }) => {
-    //     try {
-    //         const existing = UserCountry.findOne({ where: userId, countryId})
-    //         if (!existing) {
-    //             UserCountry.create({ userId, countryId })
-    //         }
-    //         else {
-    //             existing.destroy()
-    //         }
+    addRemoveUserCountry: async ({ userInput }, req) => {
+        authUser(req)
+        const countryId = userInput.CountryId
+        try {
+            authUser(req)
+            const existing = await UserCountry.findOne({ where: {userId: req.userId, countryId}})
+            let userCountry
+            if (!existing) {
+                userCountry = await UserCountry.create({ userId: req.userId, countryId })
+            }
+            else {
+                existing.destroy()
+            }
 
-    //         return true
+            return true
 
-    //     } catch (err) {
-    //         console.log(err)
-    //         return false
-    //     }
-    // }
+        } catch (err) {
+            console.log(err)
+            return false
+        }
+    },
+
+    addRemoveWishlist: async ({ userInput }, req) => {
+        authUser(req)
+        const countryId = userInput.CountryId
+        try {
+            authUser(req)
+            const existing = await UserWishlist.findOne({ where: {userId: req.userId, countryId}})
+            let userWishlist
+            if (!existing) {
+                userWishlist = await UserWishlist.create({ userId: req.userId, countryId })
+            }
+            else {
+                existing.destroy()
+            }
+
+            return true
+
+        } catch (err) {
+            console.log(err)
+            return false
+        }
+    }
 }
