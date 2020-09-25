@@ -12,6 +12,7 @@ const graphqlSchema = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolvers');
 const auth = require('./middleware/auth')
 
+const migration = require('./migration')
 const {countries} = require('./country_stats.json')
 const filteredCountries = countries.filter(country => country.code !== null)
 
@@ -58,7 +59,14 @@ app.use (
 
 app.get('/show-users', async (req, res) => {
     const users = await User.findAll()
+    const returnedUsers = users.map(user => {
+        return {username: user.username}
+    })
     res.json(users)
+})
+
+app.get('/dbmigrate', async (req, res) => {
+    return migration.addFriendRequestId()
 })
 
 try {

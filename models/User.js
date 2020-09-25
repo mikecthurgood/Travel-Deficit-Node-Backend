@@ -27,7 +27,11 @@ const User = sequelize.define('user', {
     isAdmin: {
         type: Sequelize.BOOLEAN,
         allowNull: true
-    }
+    },
+    // friendrequestid: {
+    //     type: Sequelize.STRING,
+    //     allowNull: true
+    // },
 })
 
 module.exports = User
